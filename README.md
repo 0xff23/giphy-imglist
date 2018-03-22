@@ -1,5 +1,6 @@
 # GIPHY - Gifs list
 
+- TableViewCell dispalying: Gif, Added on, Raiting and Username.
 - Simple navigation from main tableViewController to DetailViewController 
 - DetailViewController - displaying selected GIF
 - SDWebImage - was used for caching and lazy loading.
