@@ -159,8 +159,8 @@
 				477878AA2063A82600298A52 /* DetailViewController.m */,
 				4778788B20639B5C00298A52 /* Main.storyboard */,
 				477878A72063A81D00298A52 /* DetailViewController.xib */,
-				4778788E20639B5C00298A52 /* Assets.xcassets */,
 				4778789020639B5C00298A52 /* LaunchScreen.storyboard */,
+				4778788E20639B5C00298A52 /* Assets.xcassets */,
 				4778789320639B5C00298A52 /* Info.plist */,
 				4778789420639B5C00298A52 /* main.m */,
 			);

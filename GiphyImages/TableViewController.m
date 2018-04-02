@@ -13,6 +13,7 @@
 #import <SDWebImage/UIView+WebCache.h>
 #import "UIImageView+WebCache.h"
 
+#define API_URL @"https://api.giphy.com/v1/gifs/trending?&api_key=dwKoxWwPVeAIQI0i9JyY92690OpuAF5O&limit=100"
 
 @interface TableViewController ()
 @property (strong, nonatomic) NSMutableArray *imageURLs;
@@ -26,13 +27,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self refreshImages];
 }
 
 - (void) refreshImages {
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [NSURL URLWithString:@"https://api.giphy.com/v1/gifs/trending?&api_key=dwKoxWwPVeAIQI0i9JyY92690OpuAF5O&limit=100"];
+    NSURL *url = [NSURL URLWithString:API_URL];
     NSURLSessionDownloadTask *task = [session downloadTaskWithURL:url completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (response != nil) {
@@ -46,7 +49,7 @@
             self.imageDates = [dictionary valueForKeyPath:@"data.import_datetime"];
             self.imageTitles = [dictionary valueForKeyPath:@"data.title"];
             
-            NSLog(@"%@",self.imageTitles);
+            //NSLog(@"%@",self.imageTitles);
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
@@ -94,6 +97,7 @@
     static NSString *CellIdentifier = @"gifCell";
     static UIImage *placeholderImage = nil;
     
+    // Default cell Image
     if (!placeholderImage) {
         placeholderImage = [UIImage imageNamed:@"placeholder"];
     }
@@ -112,13 +116,14 @@
     [cell.imageView sd_setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURLs[indexPath.row]]
                       placeholderImage:placeholderImage
-                               options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
+                               options:indexPath.row == 0 ? SDWebImageContinueInBackground : 0];
     
     return cell;
 }
 
 #pragma mark - Navigation
 
+// Passing imageUrl and ImageTitle to show on DetailViewController
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *largeImageURLString = [self.imageURLs[indexPath.row] stringByReplacingOccurrencesOfString:@"downsized_still" withString:@"original"];
